@@ -1,4 +1,4 @@
-import API from './api';
+import {API} from '../js/apiSelector';
 import LocalDB from './localdb';
 import Markdown from './markdown';
 import makeid from './makeid';

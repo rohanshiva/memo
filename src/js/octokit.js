@@ -1,5 +1,5 @@
 import Octokit from '@octokit/rest';
-import API from './api';
+import {API} from '../js/apiSelector';
 import Markdown from './markdown';
 
 class Github {

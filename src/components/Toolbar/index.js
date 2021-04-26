@@ -3,7 +3,7 @@ import './style.css';
 
 import { Addons, Archives, Push, Search, Settings, Sheets } from '../../tabs'
 
-import API from '../../js/api';
+import {API, runningOnMicros} from '../../js/apiSelector';
 
 class App extends Component {
   state = {
@@ -120,15 +120,16 @@ class App extends Component {
               </div>
             </div>
             <div className="Bottom">
-
-              <div className={this.state.currentTab == "push" ? "Item ItemActive": "Item"}  onClick={() => API.event.emit("toggle", "push")}>
-                <div className="ToolTip"><span>Push</span></div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                  {this.state.stagedAmount == 0 && <path d="M6 18.7V21a1 1 0 0 1-2 0v-5a1 1 0 0 1 1-1h5a1 1 0 1 1 0 2H7.1A7 7 0 0 0 19 12a1 1 0 1 1 2 0 9 9 0 0 1-15 6.7zM18 5.3V3a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1h-5a1 1 0 0 1 0-2h2.9A7 7 0 0 0 5 12a1 1 0 1 1-2 0 9 9 0 0 1 15-6.7z"/> }
-                  {this.state.stagedAmount != 0 && <path d="M13 5.41V17a1 1 0 0 1-2 0V5.41l-3.3 3.3a1 1 0 0 1-1.4-1.42l5-5a1 1 0 0 1 1.4 0l5 5a1 1 0 1 1-1.4 1.42L13 5.4zM3 17a1 1 0 0 1 2 0v3h14v-3a1 1 0 0 1 2 0v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3z"/> }
-                </svg>
-                {this.state.stagedAmount != 0 && <div className="dot"></div>}
-              </div>
+              {!runningOnMicros && 
+                              <div className={this.state.currentTab == "push" ? "Item ItemActive": "Item"}  onClick={() => API.event.emit("toggle", "push")}>
+                              <div className="ToolTip"><span>Push</span></div>
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                {this.state.stagedAmount == 0 && <path d="M6 18.7V21a1 1 0 0 1-2 0v-5a1 1 0 0 1 1-1h5a1 1 0 1 1 0 2H7.1A7 7 0 0 0 19 12a1 1 0 1 1 2 0 9 9 0 0 1-15 6.7zM18 5.3V3a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1h-5a1 1 0 0 1 0-2h2.9A7 7 0 0 0 5 12a1 1 0 1 1-2 0 9 9 0 0 1 15-6.7z"/> }
+                                {this.state.stagedAmount != 0 && <path d="M13 5.41V17a1 1 0 0 1-2 0V5.41l-3.3 3.3a1 1 0 0 1-1.4-1.42l5-5a1 1 0 0 1 1.4 0l5 5a1 1 0 1 1-1.4 1.42L13 5.4zM3 17a1 1 0 0 1 2 0v3h14v-3a1 1 0 0 1 2 0v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3z"/> }
+                              </svg>
+                              {this.state.stagedAmount != 0 && <div className="dot"></div>}
+                            </div>
+              }
               <div className={this.state.currentTab == "addons" ? "Item ItemActive": "Item"} onClick={() => API.event.emit("toggle", "addons")}>
                 <div className="ToolTip"><span>Addons</span></div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M17 22a2 2 0 0 1-2-2v-1a1 1 0 0 0-1-1 1 1 0 0 0-1 1v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-3H5a3 3 0 1 1 0-6h1V8c0-1.11.9-2 2-2h3V5a3 3 0 1 1 6 0v1h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1a1 1 0 0 0-1 1 1 1 0 0 0 1 1h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3zm3-2v-3h-1a3 3 0 1 1 0-6h1V8h-3a2 2 0 0 1-2-2V5a1 1 0 0 0-1-1 1 1 0 0 0-1 1v1a2 2 0 0 1-2 2H8v3a2 2 0 0 1-2 2H5a1 1 0 0 0-1 1 1 1 0 0 0 1 1h1a2 2 0 0 1 2 2v3h3v-1a3 3 0 1 1 6 0v1h3z"/></svg>

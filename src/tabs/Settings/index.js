@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
-import API from "../../js/api"
+import {API, runningOnMicros} from "../../js/apiSelector"
 
 class App extends Component {
 
@@ -50,16 +50,18 @@ class App extends Component {
             return (<option key={i} value={curr}>{curr}</option>)
           })}
         </select>
-        <>
-          <h5>Revision History</h5>
-          <p className="sub">In case of data loss, you can use your Gist revisions and see your change history.</p>
-          {API.user &&
-            <a href={"https://gist.github.com/"+ API.user.gist_id + "/revisions"} target="_blank">
-              <div className="label" style={{fontSize: 15, fontWeight: 500}}>See Your Gist Revisions</div>
-            </a>
-          }
-        </>
-        {!API.user &&
+        {!runningOnMicros&& 
+                  <>
+                  <h5>Revision History</h5>
+                  <p className="sub">In case of data loss, you can use your Gist revisions and see your change history.</p>
+                  {API.user && 
+                    <a href={"https://gist.github.com/"+ API.user.gist_id + "/revisions"} target="_blank">
+                      <div className="label" style={{fontSize: 15, fontWeight: 500}}>See Your Gist Revisions</div>
+                    </a>
+                  }
+                </>
+        }
+        {(!API.user && !runningOnMicros )&&
           <div className="label">Only Available Online</div>
         }
         <p className="version">Memo App v{API.version} {API.version[0] == "0" && "Beta"}</p>
@@ -89,7 +91,7 @@ class App extends Component {
               </div>
             </div>
           }
-          {!API.isOnline() &&
+          {(!API.isOnline() && !runningOnMicros)&&
             <p className="sub" style={{paddingLeft: 5}}>
               <span>You are in offline mode.</span>
               <br/>

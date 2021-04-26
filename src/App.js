@@ -12,7 +12,8 @@ import Login from './components/Login';
 
 import makeid from './js/makeid';
 
-import API from './js/api';
+import {API, runningOnMicros} from './js/apiSelector'
+
 
 class App extends Component {
 
@@ -26,7 +27,9 @@ class App extends Component {
   };
 
   componentDidMount(){
-
+    if (runningOnMicros) {
+      API.offlineLogin()
+    }
     window.addEventListener("keydown", (e) => {
       if (e.keyCode === 114 || ((e.ctrlKey || e.metaKey) && e.keyCode === 70)) {
         API.event.emit("toggle", "search");
@@ -63,6 +66,7 @@ class App extends Component {
     API.event.on("sheet", (id) => {
       this.setState({sheetLoading: true, focusIndex: null});
       API.getSheet(id).then((sheet) => {
+
         if(sheet == "NO_AUTH"){
           console.log("NO_AUTH, retrying initiation");
           API.login("refresh", id);
@@ -292,7 +296,7 @@ class App extends Component {
       return (
         <div>
           <Loading quote={true}>
-            <Login forceLogout={this.state.forceLogout}/>
+              <Login forceLogout={this.state.forceLogout}/>
           </Loading>
         </div>
       );

@@ -10,6 +10,7 @@
   "main": "src/electron.js",
   "dependencies": {
     "@octokit/rest": "^16.35.0",
+    "deta": "0.0.8",
     "file-saver": "^2.0.2",
     "jsstore": "^3.4.4",
     "react": "^16.8.6",
@@ -20,7 +21,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-rename": "npm run build-rename-js && npm run build-rename-js-map",
+    "build-rename-js": "renamer --find runtime~ --replace runtime build/static/js/*.js",
+    "build-rename-js-map": "renamer --find runtime~ --replace runtime build/static/js/*.map",
+    "build": "react-scripts build && npm run build-rename",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "push": "react-scripts build && aws s3 rm s3://app.usememo.com --recursive && aws s3 cp build s3://app.usememo.com --recursive && aws s3 cp build s3://app.usememo.com/ --recursive --exclude * --include precache*.js --include service-worker.js --metadata-directive REPLACE --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type application/javascript --acl public-read",
@@ -48,7 +52,8 @@
   ],
   "devDependencies": {
     "electron": "^7.1.7",
-    "electron-notarize": "^0.2.1"
+    "electron-notarize": "^0.2.1",
+    "renamer": "^2.0.1"
   },
   "build": {
     "afterSign": "scripts/notarize.js",

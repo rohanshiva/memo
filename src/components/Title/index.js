@@ -3,7 +3,7 @@ import './style.css';
 
 import AppBar from '../AppBar'
 
-import API from '../../js/api';
+import {API} from '../../js/apiSelector';
 import Files from '../../js/files';
 
 class App extends Component {
@@ -15,6 +15,7 @@ class App extends Component {
   }
 
   componentDidMount(){
+    console.log(this.props)
     if(this.state.text === "Untitled Sheet"){
       setTimeout(() => {
         this.refs._title.focus();

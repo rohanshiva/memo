@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
-import API from '../../js/api';
+import {API} from '../../js/apiSelector';
 
 const addon = require("./addon.json");
 

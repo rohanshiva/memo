@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './style.css';
 
-import API from '../../js/api';
+import {API} from '../../js/apiSelector';
 import makeid from '../../js/makeid';
 
 class App extends Component {
